@@ -60,14 +60,14 @@ systemd.tmpfiles.rules =
     
     environment.systemPackages =
       if config.glf.environment.edition == "studio-pro" then
-        with pkgs-unstable; [
+        with pkgs; [
           davinci-resolve-studio
           gimp3-with-plugins
           audacity
           freetube
           ]
       else
-        with pkgs-unstable; [
+        with pkgs; [
           davinci-resolve
           gimp3-with-plugins
           audacity
