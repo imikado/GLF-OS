@@ -42,7 +42,12 @@ in
     #];
 
     boot.initrd.availableKernelModules = [ "nvidia_drm" "nvidia_modeset" "nvidia" "nvidia_uvm" ];
-    nixpkgs.config.cudaSupport = true;
+    environment.sessionVariables = {
+  LIBVA_DRIVER_NAME = "nvidia";
+  __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+
+  LD_LIBRARY_PATH = "${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib";
+}; 
 
     hardware.nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.latest;
