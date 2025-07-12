@@ -27,6 +27,24 @@
     };
     systemd.services."getty@tty1".enable = false;
     systemd.services."autovt@tty1".enable = false;
+    
+    #Fix icone KDE suite update
+    systemd.user.services.plasma-taskbar-icon-fix = {
+        description = "Fix plasma taskbar icon path";
+        before = [ "plasma-plasmashell.service" ];
+        wantedBy = [ "plasma-core.target" ];
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.writeShellScriptBin "plasma-taskbar-icon-fix" ''
+            #!${pkgs.bash}
+            if [ -f ''${HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc ]; then
+              ${pkgs.gnused}/bin/sed -i 's/file:\/\/\/nix\/store\/[^\/]*\/share\/applications\//applications:/gi' ''${HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc
+            fi
+          ''}/bin/plasma-taskbar-icon-fix";
+        };
+        restartIfChanged = false;
+      };
+
     documentation.nixos.enable = false;
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Packages système
