@@ -57,12 +57,12 @@ in
     
     environment.systemPackages = with pkgs; [
       nv-codec-headers
-      cudaPackages.cudatoolkit
-      cudaPackages.cuda_opencl
-      cudaPackages.cuda_nvcc
-      cudaPackages.cuda_nvvp
-      cudaPackages.cuda_nvtx
-      ffmpeg-full  
+      #cudaPackages.cudatoolkit
+      #cudaPackages.cuda_opencl
+      #cudaPackages.cuda_nvcc
+      #cudaPackages.cuda_nvvp
+      #cudaPackages.cuda_nvtx
+      #ffmpeg-full  
       nvidia-vaapi-driver  
     ];
   };
