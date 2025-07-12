@@ -40,7 +40,9 @@ in
     #  vaapiVdpau
     #  libvdpau-va-gl
     #];
-    
+
+    boot.initrd.availableKernelModules = [ "nvidia_drm" "nvidia_modeset" "nvidia" "nvidia_uvm" ];
+
     hardware.nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = true;
