@@ -1,9 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 with lib;
 let
   cfg = config.glf.nvidia_config;
 in
 {
+  # declare option
   options.glf.nvidia_config = {
     enable = mkOption {
       type = with types; bool;
@@ -28,50 +29,27 @@ in
       default = null;
     };
   };
-  
+
+  # nvidia configuration
   config = mkIf cfg.enable {
-    
     services.xserver.videoDrivers = [ "nvidia" ];
-    
-    # Configuration essentielle pour que les logiciels voient CUDA
-    #hardware.graphics.enable = true;
-    #hardware.graphics.extraPackages = with pkgs; [
-    #  nvidia-vaapi-driver
-    #  vaapiVdpau
-    #  libvdpau-va-gl
-    #];
-
-    boot.initrd.availableKernelModules = [ "nvidia_drm" "nvidia_modeset" "nvidia" "nvidia_uvm" ];
-    environment.sessionVariables = {
-  LIBVA_DRIVER_NAME = "nvidia";
-  __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-
-  LD_LIBRARY_PATH = "${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib";
-}; 
 
     hardware.nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = true;
+
       nvidiaSettings = true;
       modesetting.enable = true;
+
       prime = {
         intelBusId = optionalAttrs (cfg.intelBusId != null) cfg.intelBusId;
         nvidiaBusId = optionalAttrs (cfg.nvidiaBusId != null) cfg.nvidiaBusId;
         amdgpuBusId = optionalAttrs (cfg.amdgpuBusId != null) cfg.amdgpuBusId;
       };
+
       dynamicBoost.enable = cfg.laptop;
       powerManagement.enable = cfg.laptop;
+
     };
-    
-    environment.systemPackages = with pkgs; [
-      nv-codec-headers
-      #cudaPackages.cudatoolkit
-      #cudaPackages.cuda_opencl
-      #cudaPackages.cuda_nvcc
-      #cudaPackages.cuda_nvvp
-      #cudaPackages.cuda_nvtx
-      #ffmpeg-full  
-      nvidia-vaapi-driver  
-    ];
   };
 }
