@@ -16,6 +16,7 @@ in
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     services = {
       udev.packages = [ pkgs.gnome-settings-daemon ];
+ xserver = {        
         displayManager.gdm.enable = lib.mkDefault true;
         desktopManager.gnome = {
           enable = lib.mkDefault true;
@@ -28,7 +29,7 @@ in
           '';
         };
       };
-    
+    };
 
     documentation.nixos.enable = false;
 
