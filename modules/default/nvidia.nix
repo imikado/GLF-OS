@@ -42,6 +42,7 @@ in
     #];
 
     boot.initrd.availableKernelModules = [ "nvidia_drm" "nvidia_modeset" "nvidia" "nvidia_uvm" ];
+    nixpkgs.config.cudaSupport = true;
 
     hardware.nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.latest;
