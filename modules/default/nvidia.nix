@@ -34,12 +34,12 @@ in
     services.xserver.videoDrivers = [ "nvidia" ];
     
     # Configuration essentielle pour que les logiciels voient CUDA
-    hardware.graphics.enable = true;
-    hardware.graphics.extraPackages = with pkgs; [
-      nvidia-vaapi-driver
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
+    #hardware.graphics.enable = true;
+    #hardware.graphics.extraPackages = with pkgs; [
+    #  nvidia-vaapi-driver
+    #  vaapiVdpau
+    #  libvdpau-va-gl
+    #];
     
     hardware.nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.latest;
