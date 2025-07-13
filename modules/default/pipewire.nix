@@ -59,15 +59,6 @@ let
         "default.clock.min-quantum" = 1024;
       };
     };
-    
-    # Configuration pour désactiver le microphone d'entrée par défaut
-    pipewire."01-microphone" = {
-      "context.filter" = {
-        **"in".ports** = [ "alsa_input.usb-..." ];
-        out.props = { "node.disable" = true; };
-      };
-    };
-  };
 
 in {
 
