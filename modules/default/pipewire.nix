@@ -59,6 +59,7 @@ let
         "default.clock.min-quantum" = 1024;
       };
     };
+  }; # <-- MISSING CLOSING BRACE WAS HERE!
 
 in {
 
