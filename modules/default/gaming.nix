@@ -27,7 +27,6 @@ in
       
       # Gaming tools
       glxinfo          # Show hardware information
-      lug-helper       # help to install Star Citizen
       heroic           # Native GOG, Epic, and Amazon Games Launcher for Linux, Windows and Mac
       joystickwake     # Joystick-aware screen waker
       linuxKernel.packages.linux_6_12.hid-tmff2
