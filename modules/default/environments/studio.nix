@@ -48,7 +48,7 @@ systemd.tmpfiles.rules =
 
         hardware.graphics = {
             enable = true; 
-            extraPackages = with pkgs-unstable; [
+            extraPackages = with pkgs; [
             mesa.opencl # Assure que l'implémentation OpenCL de Mesa (Rusticl) est installée
             ];
           };
