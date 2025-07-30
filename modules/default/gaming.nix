@@ -31,7 +31,7 @@ in
       joystickwake     # Joystick-aware screen waker
       linuxKernel.packages.linux_6_12.hid-tmff2
       mangohud         # Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
-      mesa             # Ensure last mesa stable on GLF OS
+      #mesa             # Ensure last mesa stable on GLF OS
       oversteer        # Steering Wheel Manager for Linux
       umu-launcher     # Unified launcher for Windows games on Linux using the Steam Linux Runtime and Tools
       wineWowPackages.staging # Open Source implementation of the Windows API on top of X, OpenGL, and Unix (with staging patches)
