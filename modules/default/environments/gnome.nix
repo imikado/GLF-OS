@@ -16,6 +16,7 @@ in
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     services = {
       udev.packages = [ pkgs.gnome-settings-daemon ];
+ xserver = {        
         displayManager.gdm.enable = lib.mkDefault true;
         desktopManager.gnome = {
           enable = lib.mkDefault true;
@@ -28,7 +29,7 @@ in
           '';
         };
       };
-    
+    };
 
     documentation.nixos.enable = false;
 
@@ -53,7 +54,6 @@ in
         vimix-cursors
 
         # gnome
-        ptyxis
         gnome-tweaks
 
         # Extension
@@ -66,6 +66,7 @@ in
         gnomeExtensions.blur-my-shell
         gnomeExtensions.burn-my-windows
         gnomeExtensions.tiling-shell
+        gnomeExtensions.vitals
       ];
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +85,6 @@ in
         epiphany
         packagekit
 
-        gnome-console
         gnome-tour
         gnome-software
         gnome-contacts

@@ -17,6 +17,11 @@
       jack.enable = true;
       pulse.enable = true;
 
+extraConfig.pipewire."91-min-quantum" = {
+    "context.properties" = {
+      "default.clock.min-quantum" = 1024;
+    };
+};
       alsa = {
         enable = true;
         support32Bit = true;

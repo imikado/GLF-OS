@@ -19,7 +19,7 @@ in
     boot.loader.grub.splashImage = ../../assets/wallpaper/dark.jpg;
     boot.loader.grub.default = "saved";
     boot = {
-      kernelPackages = pkgs.linuxPackages_6_14;
+      #kernelPackages = pkgs.linuxPackages_zen;
       tmp.cleanOnBoot = true;
       supportedFilesystems.zfs = lib.mkForce false; # Force disable ZFS
       kernelParams =
@@ -30,10 +30,10 @@ in
         themePackages = [ plymouth-glfos ];
       };
       kernel.sysctl = {
-        vm_swappiness = 100;
+        "kernel.split_lock_mitigate" = 0;
+        vm_swappiness = 10;
         vm_vfs_cache_pressure = 50;
         vm_dirty_bytes = 268435456;
-        "vm.page-cluster" = 0;
         "vm.max_map_count" = 16777216;
         vm_dirty_background_bytes = 67108864;
         vm_dirty_writeback_centisecs = 1500;
@@ -48,8 +48,8 @@ in
     # Utiliser Mesa unstable directement depuis pkgs-unstable
     hardware.graphics = {
       enable = true;
-      package = pkgs-unstable.mesa;
-      package32 = pkgs-unstable.pkgsi686Linux.mesa;
+      package = pkgs.mesa;
+      package32 = pkgs.pkgsi686Linux.mesa;
     };
   }; 
 }
