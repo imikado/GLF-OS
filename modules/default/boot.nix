@@ -18,16 +18,18 @@ in
   config = lib.mkIf config.glf.boot.enable {
     nixpkgs.overlays = [
       (self: super: {
-        linuxPackages = super.linuxPackages.override {
-          structuredExtraConfig = with lib.kernel; {
-            HZ_1000 = yes;
-            HZ = 1000;
-            PREEMPT_FULL = yes;
-            IOSCHED_BFQ = yes;
-            DEFAULT_BFQ = yes;
-            DEFAULT_IOSCHED = "bfq";
-            V4L2_LOOPBACK = module;
-            HID = yes;
+        linuxPackages = super.linuxPackages // {
+          kernel = super.linuxPackages.kernel.override {
+            structuredExtraConfig = with lib.kernel; {
+              HZ_1000 = yes;
+              HZ = 1000;
+              PREEMPT_FULL = yes;
+              IOSCHED_BFQ = yes;
+              DEFAULT_BFQ = yes;
+              DEFAULT_IOSCHED = "bfq";
+              V4L2_LOOPBACK = module;
+              HID = yes;
+            };
           };
         };
       })
