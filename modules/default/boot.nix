@@ -30,6 +30,7 @@ in
         themePackages = [ plymouth-glfos ];
       };
       kernel.sysctl = {
+        "kernel.split_lock_mitigate" = 0;
         vm_swappiness = 10;
         vm_vfs_cache_pressure = 50;
         vm_dirty_bytes = 268435456;
