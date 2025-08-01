@@ -14,14 +14,31 @@ in
     type = lib.types.bool;
     default = true;
   };
+
   config = lib.mkIf config.glf.boot.enable {
-    #GLF wallpaper as grub splashscreen
+    nixpkgs.overlays = [
+      (self: super: {
+        linuxPackages = super.linuxPackages.override {
+          structuredExtraConfig = with lib.kernel; {
+            HZ_1000 = yes;
+            HZ = 1000;
+            PREEMPT_FULL = yes;
+            IOSCHED_BFQ = yes;
+            DEFAULT_BFQ = yes;
+            DEFAULT_IOSCHED = "bfq";
+            V4L2_LOOPBACK = module;
+            HID = yes;
+          };
+        };
+      })
+    ];
+
     boot.loader.grub.splashImage = ../../assets/wallpaper/dark.jpg;
     boot.loader.grub.default = "saved";
     boot = {
-      #kernelPackages = pkgs.linuxPackages_zen;
+      kernelPackages = pkgs.linuxPackages;
       tmp.cleanOnBoot = true;
-      supportedFilesystems.zfs = lib.mkForce false; # Force disable ZFS
+      supportedFilesystems.zfs = lib.mkForce false;
       kernelParams =
         if builtins.elem "kvm-amd" config.boot.kernelModules then [ "amd_pstate=active" "nosplit_lock_mitigate" "clearcpuid=514" ] else [ "nosplit_lock_mitigate" ];
       plymouth = {
@@ -43,13 +60,12 @@ in
         kernel_kptr_restrict = 2;
         kernel_kexec_load_disabled = 1;
       };
-    }; 
-    
-    # Utiliser Mesa unstable directement depuis pkgs-unstable
+    };
+
     hardware.graphics = {
       enable = true;
       package = pkgs.mesa;
       package32 = pkgs.pkgsi686Linux.mesa;
     };
-  }; 
+  };
 }
