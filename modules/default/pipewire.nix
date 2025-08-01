@@ -15,12 +15,8 @@
       enable = true;
       jack.enable = true;
       pulse.enable = true;
-
-lowLatency = {
-      enable = true;
       quantum = 64;
       rate = 48000;
-    };
 
 extraConfig.pipewire."91-min-quantum" = {
     "context.properties" = {
