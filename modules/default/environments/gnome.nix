@@ -66,6 +66,7 @@ in
         gnomeExtensions.blur-my-shell
         gnomeExtensions.burn-my-windows
         gnomeExtensions.tiling-shell
+        gnomeExtensions.vitals
       ];
 
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
