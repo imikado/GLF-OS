@@ -43,7 +43,6 @@ extraConfig.pipewire."91-min-quantum" = {
       };
 
     };
- security.rtkit.enable = true;
   };
 
 }
