@@ -15,7 +15,6 @@
       enable = true;
       jack.enable = true;
       pulse.enable = true;
-      rate = 48000;
 
 extraConfig.pipewire."91-min-quantum" = {
     "context.properties" = {
