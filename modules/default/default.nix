@@ -24,6 +24,7 @@
       ./nix-disk-manager.nix
       ./glfos-environment-selection.nix
       ./glfos-mangohud-configuration.nix
+      ./glfos-welcome-screen.nix
       ./fanatec.nix
       ./new-lg4ff.nix
     ];
