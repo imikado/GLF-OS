@@ -16,11 +16,6 @@
       jack.enable = true;
       pulse.enable = true;
 
-extraConfig.pipewire."91-min-quantum" = {
-    "context.properties" = {
-      "default.clock.min-quantum" = 1024;
-    };
-};
 extraConfig.pipewire."92-low-latency" = {
     "context.properties" = {
       "default.clock.rate" = 48000;
