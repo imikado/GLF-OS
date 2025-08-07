@@ -39,9 +39,9 @@ install:
 	if [ -n "$ISO_FILE" ]; then
 		echo "Found ISO: $ISO_FILE"
 
-		cp "$ISO_FILE" "GLF-OS-OMNISLASH.iso" # Copie avec la nomination GLF OS
-		sha256sum "GLF-OS-OMNISLASH.iso" > "GLF-OS-OMNISLASH.iso.sha256sum"
-		cat "GLF-OS-OMNISLASH.iso.sha256sum"
+		cp "$ISO_FILE" "GLF-OS-OMNISLASH-RC.iso" # Copie avec la nomination GLF OS
+		sha256sum "GLF-OS-OMNISLASH-RC.iso" > "GLF-OS-OMNISLASH-RC.iso.sha256sum"
+		cat "GLF-OS-OMNISLASH-RC.iso.sha256sum"
 
 	else
 		echo "No ISO file found in result/iso"
