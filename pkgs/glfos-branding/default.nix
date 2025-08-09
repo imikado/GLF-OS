@@ -106,7 +106,75 @@ EOF
 
 EOF
 
-                  
+                  cat <<EOF > $out/share/gnome-background-properties/GLF.xml
+<?xml version="1.0" encoding="UTF-8"?>
+   <!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+   <wallpapers>
+   <wallpaper deleted="false">
+      <name>GLF</name>
+      <filename>/run/current-system/sw/share/backgrounds/gnome/frost-2.png</filename>
+      <filename-dark>/run/current-system/sw/share/backgrounds/gnome/frost-2-dark.png</filename-dark>
+      <options>zoom</options>
+      <shade_type>solid</shade_type>
+      <pcolor>#ffffff</pcolor>
+      <scolor>#000000</scolor>
+     </wallpaper>
+    </wallpapers>
+
+EOF
+
+                  cat <<EOF > $out/share/gnome-background-properties/GLF.xml
+<?xml version="1.0" encoding="UTF-8"?>
+   <!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+   <wallpapers>
+   <wallpaper deleted="false">
+      <name>GLF</name>
+      <filename>/run/current-system/sw/share/backgrounds/gnome/frost-3.png</filename>
+      <filename-dark>/run/current-system/sw/share/backgrounds/gnome/frost-3-dark.png</filename-dark>
+      <options>zoom</options>
+      <shade_type>solid</shade_type>
+      <pcolor>#ffffff</pcolor>
+      <scolor>#000000</scolor>
+     </wallpaper>
+    </wallpapers>
+
+EOF
+
+                  cat <<EOF > $out/share/gnome-background-properties/GLF.xml
+<?xml version="1.0" encoding="UTF-8"?>
+   <!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+   <wallpapers>
+   <wallpaper deleted="false">
+      <name>GLF</name>
+      <filename>/run/current-system/sw/share/backgrounds/gnome/frost-4.png</filename>
+      <filename-dark>/run/current-system/sw/share/backgrounds/gnome/frost-4-dark.png</filename-dark>
+      <options>zoom</options>
+      <shade_type>solid</shade_type>
+      <pcolor>#ffffff</pcolor>
+      <scolor>#000000</scolor>
+     </wallpaper>
+    </wallpapers>
+
+EOF
+
+                  cat <<EOF > $out/share/gnome-background-properties/GLF.xml
+<?xml version="1.0" encoding="UTF-8"?>
+   <!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+   <wallpapers>
+   <wallpaper deleted="false">
+      <name>GLF</name>
+      <filename>/run/current-system/sw/share/backgrounds/gnome/frost-5.png</filename>
+      <filename-dark>/run/current-system/sw/share/backgrounds/gnome/frost-5-dark.png</filename-dark>
+      <options>zoom</options>
+      <shade_type>solid</shade_type>
+      <pcolor>#ffffff</pcolor>
+      <scolor>#000000</scolor>
+     </wallpaper>
+    </wallpapers>
+
+EOF
+
+
   '';
   
   meta = {
