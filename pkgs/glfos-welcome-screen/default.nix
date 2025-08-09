@@ -35,7 +35,7 @@ let
 in
 stdenvNoCC.mkDerivation rec {
   pname = "glfos-welcome-screen";
-  version = "1.1.0";
+  version = "1.5.0";
   
   nativeBuildInputs = [makeWrapper];
   buildInputs = [
@@ -68,7 +68,7 @@ stdenvNoCC.mkDerivation rec {
   
   src = fetchzip {
     url = "https://github.com/imikado/glfos-welcome-screen/releases/download/${version}/bundle.zip";
-    hash = "sha256-Rami2K8LHmcZwGRwE3TIepXJMwnAyiQSOMrzVFsu/Xk=";
+    hash = "sha256-pD6IXtjsMOGdS9eD4lYm7fiqs35lNTq8QLSDgTMtxwM=";
   };
 
   buildPhase = ''
