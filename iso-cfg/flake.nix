@@ -2,10 +2,10 @@
   description = "GLF-OS ISO Configuration - Installer Evaluation Flake";
 
   inputs = {
-    glf-channels.url = "github:Gaming-Linux-FR/GLF-OS-channels"; #Repos responsable de la bascule d'une stable à une autre
+    glf-channels.url = "github:Gaming-Linux-FR/glfos-testing-channels"; #Repos responsable de la bascule d'une stable à une autre
     nixpkgs.follows = "glf-channels/nixpkgs";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    glf.url = "github:Gaming-Linux-FR/GLF-OS/omnislash"; # Référence le flake racine
+    glf.url = "github:Gaming-Linux-FR/GLF-OS/testing"; # Référence le flake racine
   };
 
   outputs =
