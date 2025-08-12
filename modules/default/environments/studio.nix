@@ -22,16 +22,11 @@ boot.extraModulePackages = [
     )
   ];
 
-systemd.services.flatpak-repo = {
-      wantedBy = [ "multi-user.target" ];
-      requires = [ "network-online.target" ];
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
-      path = [ pkgs.flatpak ];
-      script = ''
-        	flatpak install -y com.obsproject.Studio org.blender.Blender org.kde.kdenlive 
-      '';
-    };
+programs.obs-studio = {
+enable = true;
+package = pkgs.obs-studio.override {cudaSupport = true;};
+};
+
 systemd.tmpfiles.rules = 
   let
     rocmEnv = pkgs.symlinkJoin {
