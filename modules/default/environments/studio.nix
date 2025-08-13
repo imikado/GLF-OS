@@ -27,6 +27,25 @@ enable = true;
 package = pkgs.obs-studio.override {cudaSupport = true;};
 };
 
+ fonts.packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code
+      fira-code-symbols
+      dina-font
+      roboto
+      lato
+      montserrat
+      raleway
+      oswald
+      merriweather
+      poppins
+      source-sans-pro
+      league-spartan
+    ];
+
 systemd.tmpfiles.rules = 
   let
     rocmEnv = pkgs.symlinkJoin {
