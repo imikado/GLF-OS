@@ -25,6 +25,7 @@ boot.extraModulePackages = [
 programs.obs-studio = {
 enable = true;
 package = pkgs.obs-studio.override {cudaSupport = true;};
+plugins = with pkgs.obs-studio-plugins; [obs-vkcapture  move-transition];
 };
 
  fonts.packages = with pkgs; [
