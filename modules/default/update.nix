@@ -71,10 +71,32 @@
             echo "[INFO] Old generations cleanup completed." >&2
           fi
 
-          if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" == "fr" ]; then
-            ${pkgs.dbus}/bin/dbus-send --system / net.nuetzlich.SystemNotifications.Notify 'string:Mise à jour système terminée.' 'string:Le système a été mis à jour. Les changements prendront effet au prochain démarrage.'
+          if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
+            ${pkgs.dbus}/bin/dbus-send --session \
+              --dest=org.freedesktop.Notifications \
+              /org/freedesktop/Notifications \
+              org.freedesktop.Notifications.Notify \
+              string:"GLF-OS" \
+              uint32:0 \
+              string:"" \
+              string:"Mise à jour système" \
+              string:"Le système a été mis à jour. Les changements prendront effet au prochain démarrage." \
+              array:string:"" \
+              dict:string:string:"urgency","1" \
+              int32:5000
           else
-            ${pkgs.dbus}/bin/dbus-send --system / net.nuetzlich.SystemNotifications.Notify 'string:System update completed.' 'string:The system has been updated. Changes will be applied on next boot.'
+            ${pkgs.dbus}/bin/dbus-send --session \
+            --dest=org.freedesktop.Notifications \
+            /org/freedesktop/Notifications \
+            org.freedesktop.Notifications.Notify \
+            string:"GLF-OS" \
+            uint32:0 \
+            string:"" \
+            string:"System update" \
+            string:"The system has been updated. Changes will be applied on next boot." \
+            array:string:"" \
+            dict:string:string:"urgency","1" \
+            int32:5000
           fi
         else
           echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
