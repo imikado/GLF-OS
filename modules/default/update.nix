@@ -73,57 +73,60 @@
           fi
 
           # NOTIFY
+
+          # Récupérer l'utilisateur actif sur seat0
+          session=$(loginctl | awk '/seat0/{print $1; exit}')
+          uid=$(loginctl show-session "$session" -p User --value)
+          user=$(getent passwd "$uid" | cut -d: -f1)
+
+          # Définir les variables d'environnement pour la session Wayland
+          export XDG_RUNTIME_DIR="/run/user/$uid"
+          export DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"
+          export WAYLAND_DISPLAY="wayland-0"
+
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
-            for dir in /run/user/*; do
-              uid=$(basename "$dir")
-              [ -S "/run/user/$uid/bus" ] || continue
-              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
-              ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
+            sudo -u "$user" \
+              XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+              DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "Mise à jour système" \
               "Le système a été mis à jour. Les changements prendront effet au prochain démarrage."
-            done
           else
-            for dir in /run/user/*; do
-              uid=$(basename "$dir")
-              [ -S "/run/user/$uid/bus" ] || continue
-              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
-              ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
+            sudo -u "$user" \
+              XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+              DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "System update" \
               "The system has been updated. Changes will be applied on next boot."
-            done
           fi
         else
           echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
-            for dir in /run/user/*; do
-              uid=$(basename "$dir")
-              [ -S "/run/user/$uid/bus" ] || continue
-              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
-              ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
+            sudo -u "$user" \
+              XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+              DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "Mise à jour système" \
               "Le système a été mis à jour."
-            done
           else
-            for dir in /run/user/*; do
-              uid=$(basename "$dir")
-              [ -S "/run/user/$uid/bus" ] || continue
-              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
-              ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
+            sudo -u "$user" \
+              XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+              DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "System update" \
               "The system has been updated."
-            done
           fi
         fi
       '';
