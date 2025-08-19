@@ -74,7 +74,8 @@
 
           # NOTIFY
 
-          uid=$(loginctl show-session $(loginctl | awk '/seat0/{print $1; exit}') -p User --value)
+          session=$(loginctl | awk '/seat0/{print $1; exit}')
+          uid=$(loginctl show-session "$session" -p User --value)
           user=$(getent passwd "$uid" | cut -d: -f1)
 
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
