@@ -87,6 +87,19 @@
           fi
         else
           echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
+          if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
+            ${pkgs.dunst}/bin/dunstify \
+            --appname "GLF-OS Update" \
+            --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
+            "Mise à jour système" \
+            "Le système a été mis à jour."
+          else
+            ${pkgs.dunst}/bin/dunstify \
+            --appname "GLF-OS Update" \
+            --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
+            "System update" \
+            "The system has been updated."
+          fi
         fi
       '';
       mode = "0755";
