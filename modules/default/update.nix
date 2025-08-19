@@ -72,8 +72,12 @@
             echo "[INFO] Old generations cleanup completed." >&2
           fi
 
+          # NOTIFY
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
-            for uid in $(ls /run/user); do
+            for dir in /run/user/*; do
+              uid=$(basename "$dir")
+              [ -S "/run/user/$uid/bus" ] || continue
+              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
               ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
@@ -82,7 +86,10 @@
               "Le système a été mis à jour. Les changements prendront effet au prochain démarrage."
             done
           else
-            for uid in $(ls /run/user); do
+            for dir in /run/user/*; do
+              uid=$(basename "$dir")
+              [ -S "/run/user/$uid/bus" ] || continue
+              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
               ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
@@ -94,7 +101,10 @@
         else
           echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
-            for uid in $(ls /run/user); do
+            for dir in /run/user/*; do
+              uid=$(basename "$dir")
+              [ -S "/run/user/$uid/bus" ] || continue
+              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
               ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
@@ -103,7 +113,10 @@
               "Le système a été mis à jour."
             done
           else
-            for uid in $(ls /run/user); do
+            for dir in /run/user/*; do
+              uid=$(basename "$dir")
+              [ -S "/run/user/$uid/bus" ] || continue
+              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
               ${pkgs.systemd}/bin/systemd-run --user -M "$uid" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
