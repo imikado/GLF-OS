@@ -88,7 +88,7 @@
             sudo -u "$user" \
               XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
               DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
-              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+              DISPLAY= WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
@@ -98,7 +98,7 @@
             sudo -u "$user" \
               XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
               DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
-              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+              DISPLAY= WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
@@ -111,7 +111,7 @@
             sudo -u "$user" \
               XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
               DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
-              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+              DISPLAY= WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
@@ -121,7 +121,7 @@
             sudo -u "$user" \
               XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
               DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
-              WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+              DISPLAY= WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
               ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
