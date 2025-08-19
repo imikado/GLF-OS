@@ -79,13 +79,13 @@
           user=$(getent passwd "$uid" | cut -d: -f1)
 
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
-            sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \
+            /run/current-system/sw/bin/sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "Mise à jour système" \
               "Le système a été mis à jour. Les changements prendront effet au prochain démarrage."
           else
-            sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \ ${pkgs.dunst}/bin/dunstify \
+            /run/current-system/sw/bin/sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \ ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "System update" \
@@ -94,13 +94,13 @@
         else
           echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
           if [ -n "''${LANG}" ] && [ "$(echo ''${LANG} | cut -d_ -f1)" = "fr" ]; then
-            sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \
+            /run/current-system/sw/bin/sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "Mise à jour système" \
               "Le système a été mis à jour."
           else
-            sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \
+            /run/current-system/sw/bin/sudo -u "$user" --login ${pkgs.dunst}/bin/dunstify \
               --appname "GLF-OS Update" \
               --icon "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
               "System update" \
