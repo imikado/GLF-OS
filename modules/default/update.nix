@@ -157,7 +157,7 @@ in
       AccuracySec = "1m";
     };
     after = [ "network-online.target" ];
-    requires = [ "network-online.target" ]
+    requires = [ "network-online.target" ];
   };
 
   #### 3) Service user (template) : affiche la notification via libnotify
