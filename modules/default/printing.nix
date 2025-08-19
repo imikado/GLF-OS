@@ -36,6 +36,8 @@
             gutenprint
             gutenprintBin
             hplip
+            epson-escpr2
+            epson-escpr
             
             samsung-unified-linux-driver
             splix
