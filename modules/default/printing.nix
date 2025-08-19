@@ -64,6 +64,7 @@
           sane-airscan
           epkowa
           utsushi
+          epsonscan2
         ];
       };
 
