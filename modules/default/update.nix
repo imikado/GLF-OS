@@ -24,7 +24,7 @@
 
     environment.etc."glfos/update.sh" = {
       text = ''
-        #!/${pkgs.bash}/bin/bash
+        #!${pkgs.bash}/bin/bash
         
         _notify() {
         lang="''${LANG:-en}"
