@@ -27,8 +27,8 @@
         #!/${pkgs.bash}/bin/bash
         
         _notify() {
-        lang=${LANG:-en}
-        case "${lang%%_*}" in
+        lang="''${LANG:-en}"
+        case "''${lang%%_*}" in
         fr)
             title="${1:-Mise à jour système}"
             message="${2:-Le système a été mis à jour. Les changements prendront effet au prochain démarrage.}"
@@ -39,16 +39,17 @@
             ;;
    		esac
     	
-        for uid in $(ls /run/user); do
-    	  user=$(getent passwd $uid | cut -d: -f1)
-    	  runuser -u "$user" -- env \
-          XDG_RUNTIME_DIR=/run/user/$uid \
-          DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus \
+        for path in /run/user/*; do
+    	  uid="$(basename "$path")"
+    	  user="$(id -nu "$uid")"
+    	  runuser -u "${user}" -- env \
+          XDG_RUNTIME_DIR="/run/user/${uid}" \
+          DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/${uid}/bus" \
           notify-send \
             -a "GLF-Update" \
             -i "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
-            "$title" \
-            "$message"
+            "${title}" \
+            "${message}"
 		done
 		}
 	
