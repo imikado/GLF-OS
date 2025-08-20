@@ -30,26 +30,26 @@
         lang="''${LANG:-en}"
         case "''${lang%%_*}" in
         fr)
-            title="${1:-Mise à jour système}"
-            message="${2:-Le système a été mis à jour. Les changements prendront effet au prochain démarrage.}"
+            title="''${1:-Mise à jour système}"
+            message="''${2:-Le système a été mis à jour. Les changements prendront effet au prochain démarrage.}"
             ;;
         *)
-            title="${3:-System Update}"
-            message="${4:-The system has been updated. Changes will take effect on the next reboot.}"
+            title="''${3:-System Update}"
+            message="''${4:-The system has been updated. Changes will take effect on the next reboot.}"
             ;;
    		esac
     	
         for path in /run/user/*; do
-    	  uid="$(basename "$path")"
-    	  user="$(id -nu "$uid")"
-    	  runuser -u "${user}" -- env \
-          XDG_RUNTIME_DIR="/run/user/${uid}" \
-          DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/${uid}/bus" \
+    	  uid="''$(basename "$path")"
+    	  user="''$(id -nu "$uid")"
+    	  runuser -u "''${user}" -- env \
+          XDG_RUNTIME_DIR="/run/user/''${uid}" \
+          DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/''${uid}/bus" \
           notify-send \
             -a "GLF-Update" \
             -i "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
-            "${title}" \
-            "${message}"
+            "''${title}" \
+            "''${message}"
 		done
 		}
 	
