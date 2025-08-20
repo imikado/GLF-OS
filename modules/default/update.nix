@@ -37,7 +37,7 @@
             title="${3:-System Update}"
             message="${4:-The system has been updated. Changes will take effect on the next reboot.}"
             ;;
-   	esac
+   		esac
     	
         for uid in $(ls /run/user); do
     	  user=$(getent passwd $uid | cut -d: -f1)
@@ -49,8 +49,8 @@
             -i "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
             "$title" \
             "$message"
-	done
-	}
+		done
+		}
 	
         FLAKE_PATH="/etc/nixos"
         FLAKE_NAME="GLF-OS"
