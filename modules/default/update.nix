@@ -17,6 +17,7 @@
     environment.systemPackages = with pkgs; [
       coreutils
       gawk
+	  libnotify
     ];
 
     services.systembus-notify.enable = true;
