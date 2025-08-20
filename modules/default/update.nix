@@ -43,10 +43,10 @@
     for path in /run/user/*; do
     	uid="''$(basename "$path")"
     	  user="''$(id -nu "$uid")"
-    	  runuser -u "''${user}" -- env \
+    	  /run/current-system/sw/bin/runuser -u "''${user}" -- env \
           XDG_RUNTIME_DIR="/run/user/''${uid}" \
           DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/''${uid}/bus" \
-          notify-send \
+          /run/current-system/sw/bin/notify-send \
             -a "GLF-Update" \
             -i "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
             "''${title}" \
