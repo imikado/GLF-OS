@@ -18,6 +18,7 @@
       coreutils
       gawk
 	  libnotify
+	  shadow
     ];
 
     services.systembus-notify.enable = true;
