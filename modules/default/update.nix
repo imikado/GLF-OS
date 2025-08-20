@@ -1,94 +1,57 @@
-{ config, pkgs, lib, ... }:
-
-let
-  # Script de notif installé dans le store (utilisé par le service user).
-  # Instance param (%I) = "success" | "failure"
-  glfosNotify = pkgs.writeScriptBin "glfos-notify" ''
-    #!/usr/bin/env bash
-    set -eu
-
-    status="${1:-success}"
-
-    # Choix FR/EN selon LANG
-    lang="${LANG%%_*}"
-    if [ "$lang" = "fr" ]; then
-      case "$status" in
-        success)
-          title="Mise à jour système"
-          msg="Le système a été mis à jour. Les changements prendront effet au prochain démarrage."
-          ;;
-        failure)
-          title="Mise à jour échouée"
-          msg="La mise à jour a échoué. Consultez les journaux pour plus d’informations."
-          ;;
-        *)
-          title="Mise à jour"
-          msg="État inconnu : $status"
-          ;;
-      esac
-    else
-      case "$status" in
-        success)
-          title="System update"
-          msg="The system has been updated. Changes will take effect on next boot."
-          ;;
-        failure)
-          title="Update failed"
-          msg="The update failed. Check logs for details."
-          ;;
-        *)
-          title="Update"
-          msg="Unknown state: $status"
-          ;;
-      esac
-    fi
-
-    # GNOME/Wayland-friendly: notify-send (libnotify). 
-    # Si tu veux Dunst à la place, remplace notify-send par dunstify (voir note plus bas).
-    ${pkgs.libnotify}/bin/notify-send --app-name="GLF-OS Update" "$title" "$msg"
-  '';
-
-  # Petit helper (dans le store) appelé par le service root pour déclencher le service user
-  # pour CHAQUE session graphique active (pas d’UID en dur).
-  glfosKickUserNotif = pkgs.writeScriptBin "glfos-kick-user-notif" ''
-    #!/usr/bin/env bash
-    set -eu
-
-    status="${1:-success}"
-
-    # Parcourt les sessions logind actives locales (seat*), déclenche la notif pour chaque user
-    while read -r sid user seat state rest; do
-      # On ne garde que les sessions locales actives (seat non vide, state = online/active)
-      if [ -n "${seat:-}" ] && [ "${state:-}" != "closing" ]; then
-        # Déclenche le template user-unit pour cet utilisateur
-        /run/current-system/sw/bin/runuser -u "$user" -- \
-          /run/current-system/sw/bin/systemctl --user start "glfos-update-notify@${status}.service" || true
-      fi
-    done < <(/run/current-system/sw/bin/loginctl list-sessions --no-legend | awk '{print $1}' | while read i; do
-      # sort: SID USER SEAT STATE ...
-      u="$(/run/current-system/sw/bin/loginctl show-session "$i" -p Name --value)"
-      s="$(/mnt/host/run/current-system/sw/bin/true 2>/dev/null || :)"
-      seat="$(/run/current-system/sw/bin/loginctl show-session "$i" -p Seat --value)"
-      state="$(/run/current-system/sw/bin/loginctl show-session "$i" -p State --value)"
-      echo "$i $u $seat $state"
-    done)
-  '';
-in
 {
-  #### 1) Service root (worker) : fait l’update puis notifie via le service user
-  systemd.services.glfos-update-worker = {
-    description = "GLF-OS background updater (root)";
-    serviceConfig = {
-      Type = "oneshot";
-      # environnement minimal mais suffisant
-      Environment = "PATH=/run/current-system/sw/bin";
-    };
-    script = ''
-      set -euo pipefail
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
-      # --- ta logique d’update ---
-      # Exemple NixOS classique :
-      FLAKE_PATH="/etc/nixos"
+{
+  options.glf.autoUpgrade = lib.mkOption {
+    description = "Enable GLFOS auto-upgrade.";
+    type = lib.types.bool;
+    default = true;
+  };
+
+  config = lib.mkIf config.glf.autoUpgrade {
+
+    environment.systemPackages = with pkgs; [
+      coreutils
+      gawk
+    ];
+
+    services.systembus-notify.enable = true;
+
+    environment.etc."glfos/update.sh" = {
+      text = ''
+        #!/${pkgs.bash}/bin/bash
+        
+        _notify() {
+        lang=${LANG:-en}
+        case "${lang%%_*}" in
+        fr)
+            title="${1:-Mise à jour système}"
+            message="${2:-Le système a été mis à jour. Les changements prendront effet au prochain démarrage.}"
+            ;;
+        *)
+            title="${3:-System Update}"
+            message="${4:-The system has been updated. Changes will take effect on the next reboot.}"
+            ;;
+   	esac
+    	
+        for uid in $(ls /run/user); do
+    	  user=$(getent passwd $uid | cut -d: -f1)
+    	  runuser -u "$user" -- env \
+          XDG_RUNTIME_DIR=/run/user/$uid \
+          DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus \
+          notify-send \
+            -a "GLF-Update" \
+            -i "/run/current-system/sw/share/icons/hicolor/256x256/emblems/glfos-logo-light.png" \
+            "$title" \
+            "$message"
+	done
+	}
+	
+        FLAKE_PATH="/etc/nixos"
         FLAKE_NAME="GLF-OS"
 
         FLAKE_LOCK_PATH="/etc/nixos/flake.lock"
@@ -97,7 +60,6 @@ in
         # Check network status
         if ! ${pkgs.networkmanager}/bin/nm-online -q; then
           echo "[ERROR] Network is not yet online" >&2
-          status="failure"
           exit 1
         fi
 
@@ -105,7 +67,6 @@ in
         ${pkgs.flatpak}/bin/flatpak update -y
         if [ $? -ne 0 ]; then
           echo "[ERROR] Flatpak update failed" >&2
-          status="failure"
           exit 1
         fi
         echo "[INFO] Flatpak update completed successfully." >&2
@@ -114,7 +75,6 @@ in
         ${pkgs.nix}/bin/nix flake update --flake $FLAKE_PATH
         if [ $? -ne 0 ]; then
           echo "[ERROR] Flake update failed for $FLAKE_PATH" >&2
-          status="failure"
           exit 1
         fi
 
@@ -125,7 +85,6 @@ in
           ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake $FLAKE_PATH#$FLAKE_NAME
           if [ $? -ne 0 ]; then
             echo "[ERROR] System rebuild failed for $FLAKE_NAME" >&2
-            status="failure"
             exit 1
           fi
           echo "[INFO] GLFOS update and rebuild completed successfully." >&2
@@ -135,41 +94,49 @@ in
           ${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 2d
           if [ $? -ne 0 ]; then
             echo "[WARNING] Failed to cleanup old generations." >&2
-            status="failure"
           else
             echo "[INFO] Old generations cleanup completed." >&2
           fi
 
-		  status="success"
-
-      # Déclenche la notif dans toutes les sessions utilisateur actives (sans sudo, sans UID en dur)
-      ${glfosKickUserNotif}/bin/glfos-kick-user-notif "$status" || true
-    '';
-  };
-
-  #### 2) Timer root : lance le worker selon ta cadence
-  systemd.timers.glfos-update-worker = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "5min";
-      OnUnitActiveSec = "12h";
-      Persistent = true;
-      AccuracySec = "1m";
+          _notify
+          
+        else
+          echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
+          _notify "Mise à jour GLF-OS" \
+          "Le système a été mis à jour." \
+          "GLF-OS Update" \
+          "The system has been updated."
+        fi
+      '';
+      mode = "0755";
     };
-    after = [ "network-online.target" ];
+
+    systemd = {
+      services."glfos-update" = {
+        description = "Update GLFOS";
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network-online.target" ];
+        requires = [ "network-online.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = [
+            "${pkgs.bash}/bin/bash"
+            "/etc/glfos/update.sh"
+          ];
+        };
+      };
+      timers."glfos-update" = {
+        description = "Run GLFOS Auto-update script";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnBootSec = "5min";
+          OnUnitActiveSec = "12h";
+          Persistent = true;
+        };
+        after = [ "network-online.target" ];
     requires = [ "network-online.target" ];
-  };
-
-  #### 3) Service user (template) : affiche la notification via libnotify
-  systemd.user.services."glfos-update-notify@" = {
-    description = "GLF-OS update notification (%i)";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${glfosNotify}/bin/glfos-notify %i";
-      # PATH user
-      Environment = "PATH=${lib.makeBinPath [ pkgs.libnotify ]}";
+      };
     };
-    # Démarrable à la demande par le service root
-    wantedBy = [ ];
+
   };
 }
