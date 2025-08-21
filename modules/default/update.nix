@@ -118,8 +118,6 @@ fi
       services."glfos-update" = {
         description = "Update GLFOS";
         wantedBy = [ ];
-        after = [ "network-online.target" ];
-        requires = [ "network-online.target" ];
         serviceConfig = {
           Type = "oneshot";
           ExecStart = [
@@ -134,7 +132,6 @@ fi
         timerConfig = {
           OnBootSec = "5min";
           OnUnitActiveSec = "12h";
-          Persistent = true;
         };
         after = [ "network-online.target" ];
     	requires = [ "network-online.target" ];
