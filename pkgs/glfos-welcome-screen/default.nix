@@ -81,6 +81,8 @@ stdenvNoCC.mkDerivation rec {
   
       mkdir -p $out/etc/xdg/autostart
       cp ${desktopFile}/share/applications/glfos-welcome-screen.desktop $out/etc/xdg/autostart/glfos-welcome-screen.desktop
+      cp ${desktopEntry}/share/applications/glfos-welcome-screen.desktop $out/share/applications/glfos-welcome-screen.desktop
+
   '';
   
   meta = {
