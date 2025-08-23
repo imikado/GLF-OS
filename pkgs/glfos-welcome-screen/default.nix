@@ -30,6 +30,7 @@ let
     desktopName = "Welcome Screen";
     exec = "glfos-welcome-screen";
     icon = "glfos-welcome-screen";
+    startupWMClass ="org.dupot.glfos_welcome_screen";
   };
 in
 stdenvNoCC.mkDerivation rec {
@@ -79,6 +80,8 @@ stdenvNoCC.mkDerivation rec {
   
       mkdir -p $out/etc/xdg/autostart
       cp ${desktopFile}/share/applications/glfos-welcome-screen.desktop $out/etc/xdg/autostart/glfos-welcome-screen.desktop
+      mkdir -p $out/share/applications
+      cp ${desktopFile}/share/applications/glfos-welcome-screen.desktop $out/share/applications/glfos-welcome-screen.desktop
   '';
   
   meta = {
