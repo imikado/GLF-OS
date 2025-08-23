@@ -5,7 +5,6 @@
   makeWrapper,
   fetchzip,
   glib,
-  nss,
   nspr,
   at-spi2-atk,
   cups,
@@ -40,7 +39,6 @@ stdenvNoCC.mkDerivation rec {
   nativeBuildInputs = [makeWrapper];
   buildInputs = [
     glib # libgobject-2.0.so.0, libglib-2.0.so.0, libgio-2.0.so.0
-    nss # libnss3.so, libnssutil3.so, libsmime3.so
     nspr # libnspr4.so
     at-spi2-atk # libatk-1.0.so.0, libatk-bridge-2.0.so.0
     cups
