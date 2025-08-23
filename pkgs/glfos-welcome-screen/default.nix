@@ -5,7 +5,6 @@
   makeWrapper,
   fetchzip,
   glib,
-  nss,
   nspr,
   at-spi2-atk,
   cups,
@@ -31,16 +30,16 @@ let
     desktopName = "Welcome Screen";
     exec = "glfos-welcome-screen";
     icon = "glfos-welcome-screen";
+    startupWMClass ="org.dupot.glfos_welcome_screen";
   };
 in
 stdenvNoCC.mkDerivation rec {
   pname = "glfos-welcome-screen";
-  version = "1.5.0";
+  version = "1.6.10";
   
   nativeBuildInputs = [makeWrapper];
   buildInputs = [
     glib # libgobject-2.0.so.0, libglib-2.0.so.0, libgio-2.0.so.0
-    nss # libnss3.so, libnssutil3.so, libsmime3.so
     nspr # libnspr4.so
     at-spi2-atk # libatk-1.0.so.0, libatk-bridge-2.0.so.0
     cups
@@ -68,7 +67,7 @@ stdenvNoCC.mkDerivation rec {
   
   src = fetchzip {
     url = "https://github.com/imikado/glfos-welcome-screen/releases/download/${version}/bundle.zip";
-    hash = "sha256-pD6IXtjsMOGdS9eD4lYm7fiqs35lNTq8QLSDgTMtxwM=";
+    hash = "sha256-kYUOJp1Pk0BpWPdeD7D0lNjY3PFc6eSjiyV7hJcpumo=";
   };
 
   buildPhase = ''
@@ -81,6 +80,8 @@ stdenvNoCC.mkDerivation rec {
   
       mkdir -p $out/etc/xdg/autostart
       cp ${desktopFile}/share/applications/glfos-welcome-screen.desktop $out/etc/xdg/autostart/glfos-welcome-screen.desktop
+      mkdir -p $out/share/applications
+      cp ${desktopFile}/share/applications/glfos-welcome-screen.desktop $out/share/applications/glfos-welcome-screen.desktop
   '';
   
   meta = {
