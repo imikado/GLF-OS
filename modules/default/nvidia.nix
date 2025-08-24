@@ -2,6 +2,15 @@
 with lib;
 let
   cfg = config.glf.nvidia_config;
+
+  nvidiaDriverPackage = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+    version = "580.76.05";
+    sha256_64bit = "sha256-IZvmNrYJMbAhsugR4O/4hzY8cx+KlAqHtzvAVNBdl/0=";
+    sha256_aarch64 = "sha256-p/sE/9e5UNy63RI2jpF6a5A43C+yO3z3dY3E6q4R8aE=";
+    openSha256 = "sha256-4Yt3dYl3nZ3hA5fHjYk3eX9vYl2cZ9mJ5cI8jW7kH4A=";
+    settingsSha256 = "sha256-qHYDad9UoNW9H/R5DuIo+gdXEqTAfAXML3GsA3UJLcM=";
+    persistencedSha256 = "sha256-e+W4rY9aF0cZ8sW7kLp8jX/yB7tG3jV/bN6cK9sX2jA=";
+  };
 in
 {
   # declare option
@@ -35,16 +44,16 @@ in
     services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      package = nvidiaDriverPackage;
       open = true;
 
       nvidiaSettings = true;
       modesetting.enable = true;
 
       prime = {
-        intelBusId = optionalAttrs (cfg.intelBusId != null) cfg.intelBusId;
-        nvidiaBusId = optionalAttrs (cfg.nvidiaBusId != null) cfg.nvidiaBusId;
-        amdgpuBusId = optionalAttrs (cfg.amdgpuBusId != null) cfg.amdgpuBusId;
+        intelBusId = optionalString (cfg.intelBusId != null) cfg.intelBusId;
+        nvidiaBusId = optionalString (cfg.nvidiaBusId != null) cfg.nvidiaBusId;
+        amdgpuBusId = optionalString (cfg.amdgpuBusId != null) cfg.amdgpuBusId;
       };
 
       dynamicBoost.enable = cfg.laptop;
