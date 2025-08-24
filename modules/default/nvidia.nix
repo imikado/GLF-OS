@@ -5,11 +5,11 @@ let
 
   nvidiaDriverPackage = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     version = "580.76.05";
-    sha256_64bit = "sha256-IZvmNrYJMbAhsugR4O/4hzY8cx+KlAqHtzvAVNBdl/0=";
-    sha256_aarch64 = "sha256-p/sE/9e5UNy63RI2jpF6a5A43C+yO3z3dY3E6q4R8aE=";
-    openSha256 = "sha256-4Yt3dYl3nZ3hA5fHjYk3eX9vYl2cZ9mJ5cI8jW7kH4A=";
-    settingsSha256 = "sha256-qHYDad9UoNW9H/R5DuIo+gdXEqTAfAXML3GsA3UJLcM=";
-    persistencedSha256 = "sha256-e+W4rY9aF0cZ8sW7kLp8jX/yB7tG3jV/bN6cK9sX2jA=";
+    sha256_64bit = "sha256-IZvmNrYJMbAhsujB4O/4hzY8cx+KlAyqh7zAVNBdl/0=";
+    sha256_aarch64 = "sha256-NL2DswzVWQQMVM092NmfImqKbTk9VRgLL8xf4QEvGAQ=";
+    openSha256 = "sha256-xEPJ9nskN1kISnSbfBigVaO6Mw03wyHebqQOQmUg/eQ=";
+    settingsSha256 = "sha256-ll7HD7dVPHKUyp5+zvLeNqAb6hCpxfwuSyi+SAXapoQ=";
+    persistencedSha256 = "sha256-bs3bUi8LgBu05uTzpn2ugcNYgR5rzWEPaTlgm0TIpHY=";
   };
 in
 {
